@@ -1,0 +1,5 @@
+include 'common'
+include 'customers-and-orders-api-web'
+include 'customers-and-orders-service'
+include 'end-to-end-tests'
+
