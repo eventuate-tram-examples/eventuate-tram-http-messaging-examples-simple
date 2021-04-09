@@ -8,7 +8,7 @@ import io.eventuate.examples.tram.ordersandcustomers.customers.domain.Customer;
 import io.eventuate.examples.tram.ordersandcustomers.customers.domain.CustomerCreditLimitExceededException;
 import io.eventuate.tram.events.publisher.DomainEventPublisher;
 import io.eventuate.tram.events.publisher.ResultWithEvents;
-import io.micronaut.spring.tx.annotation.Transactional;
+import io.micronaut.transaction.annotation.TransactionalAdvice;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,7 +28,7 @@ public class CustomerService {
   @PersistenceContext
   private EntityManager entityManager;
 
-  @Transactional
+  @TransactionalAdvice
   public Customer createCustomer(String name, Money creditLimit) {
     ResultWithEvents<Customer> customerWithEvents = Customer.create(name, creditLimit);
     Customer customer = customerWithEvents.result;
