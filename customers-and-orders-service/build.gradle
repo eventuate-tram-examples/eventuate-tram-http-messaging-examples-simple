@@ -1,0 +1,50 @@
+plugins {
+    id "io.spring.dependency-management"
+    id "java"
+    id "com.github.johnrengelman.shadow" version "4.0.2"
+    id "application"
+}
+
+repositories {
+    mavenCentral()
+    maven { url "https://jcenter.bintray.com" }
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "io.micronaut:micronaut-bom:$micronautVersion"
+    }
+}
+
+dependencies {
+    compile project(":common")
+    compile project(":customers-and-orders-api-web")
+
+    compile "io.eventuate.tram.core:eventuate-tram-micronaut-producer-jdbc"
+    compile "io.eventuate.tram.core:eventuate-tram-micronaut-consumer-jdbc"
+    compile "io.eventuate.tram.core:eventuate-tram-micronaut-consumer-common"
+    compile "io.eventuate.messaging.http:eventuate-tram-consumer-http-micronaut:$eventuateTramMessagingHttpVersion"
+
+    annotationProcessor "io.micronaut:micronaut-inject-java"
+    annotationProcessor "io.micronaut:micronaut-validation"
+    annotationProcessor "io.micronaut.configuration:micronaut-openapi"
+    annotationProcessor "javax.persistence:javax.persistence-api:2.2"
+    compile "io.micronaut.sql:micronaut-hibernate-jpa"
+    compile 'io.micronaut.sql:micronaut-jdbc-hikari'
+    compile "io.micronaut:micronaut-inject"
+    compile "io.micronaut:micronaut-validation"
+    compile "io.micronaut:micronaut-runtime"
+    compile "io.micronaut:micronaut-http-server-netty"
+    compile 'io.micronaut:micronaut-management'
+    runtime "ch.qos.logback:logback-classic:1.2.3"
+    compile "io.swagger.core.v3:swagger-annotations"
+    compile "io.eventuate.util:eventuate-util-swagger-ui:$eventuateUtilVersion"
+
+    runtime 'mysql:mysql-connector-java:5.1.36'
+}
+
+mainClassName = "io.eventuate.examples.tram.ordersandcustomers.ServiceMain"
+
+shadowJar {
+    mergeServiceFiles()
+}
